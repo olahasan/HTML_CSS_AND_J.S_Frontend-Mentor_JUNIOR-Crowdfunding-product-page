@@ -1,142 +1,166 @@
-let icon = document.getElementById("icon");
-let text = document.getElementById("text");
-let Bookmark = document.getElementById("Bookmark");
-// let one = document.getElementById("one");
-// console.log(icon);
-// console.log(text);
-// console.log(Bookmark);
-// console.log(one);
+document.addEventListener("DOMContentLoaded", () => {
+  const totalBackers = document.getElementById("total_backers");
+  let totalBackersValue = +totalBackers.innerHTML.replace(/,/g, "").trim();
+  console.log(totalBackers);
+  console.log(totalBackersValue);
 
+  const backedElement = document.getElementById("backed");
+  let backedValue = +backed.innerHTML.replace(/[$,]/g, "").trim();
+  console.log(backedElement);
+  console.log(backedValue);
 
-// header
-// header
-icon.onclick = function(){
-    text.classList.toggle("hidden");
-} 
-Bookmark.onclick = function(){
-    Bookmark.classList.toggle("Bookmark");
-} 
+  //   let backed = document.getElementById("backed");
+  const body = document.getElementsByTagName("body")[0];
+  body.addEventListener("click", (event) => {
+    if (event.target.id === "icon") {
+      document.getElementById("text").classList.toggle("hidden");
+    } else if (event.target.id === "Bookmark") {
+      event.target.classList.toggle("Bookmark");
+    } else if (event.target.id === "back") {
+      handleOverlay("hidden", "remove", "");
+      document.getElementById("backk").classList.remove("hidden");
+      //   console.log(document.getElementById("backk"));
+      document.getElementById("backk").addEventListener("click", (event) => {
+        if (event.target.id === "circle") {
+          console.log(event.target);
+          document.querySelectorAll(".circle").forEach(function (c) {
+            c.style.backgroundColor = "transparent";
+          });
 
+          document.querySelectorAll("hr").forEach(function (e) {
+            e.classList.add("hidden");
+          });
+          document.querySelectorAll(".uuuuu").forEach(function (e) {
+            e.style.display = "none";
+          });
 
-// button
-// button
-let back = document.getElementById("back");
-let overlay = document.getElementById("overlay");
-let backk = document.getElementById("backk");
-// console.log(back);
-// console.log(overlay);
-// console.log(backk);
-
-back.onclick = function(){
-    overlay.classList.remove("hidden");
-    backk.classList.remove("hidden");
-}
-
-// back_this_project
-
-let circle = document.querySelectorAll(".circle");
-// console.log(circle);
-
-
-circle.forEach(function(ele, index){
-     ele.onclick = function(){
-        // console.log(ele, index);
-        circle.forEach(function(e){
-            e.style.backgroundColor = "transparent";
-        })
-        this.style.backgroundColor = "#147b74";
-        this.classList.add("red");
-
-if(index === 0){
-    // console.log("zero");
-}
-if(index === 1){
-
-    hr.forEach(function(e, index){
-        if(index === 0){
-            // console.log(e, index);
-            e.classList.remove("hidden");
-            uuuuu1.style.display = "flex"
-        }
-        // console.log(e, index);
-    //e.classList.remove("hidden");
-    
-    Continue.forEach(function(e){
-        e.onclick = function(){
-            // console.log(this);
-            if(this.previousElementSibling.firstElementChild.value >= 25){
-                // console.log("full");
-                backk.style.zIndex = "0";
-                finaly.classList.remove("hidden");
-            }else{
-                // console.log("nononono");
-                this.previousElementSibling.firstElementChild.style.borderColor = "red";
+          event.target.style.backgroundColor = "#147b74";
+          event.target.classList.add("red");
+          //
+          if (event.target.classList.contains("one")) {
+            console.log("circle one");
+            document.getElementById("backk").style.zIndex = "0";
+            document.querySelector(".finaly").classList.remove("hidden");
+            document
+              .querySelector(".finaly")
+              .addEventListener("click", function (e) {
+                if (e.target.id === "done") {
+                  document.querySelector(".finaly").classList.add("hidden");
+                  document.getElementById("backk").classList.add("hidden");
+                  handleOverlay("", "", "relative");
+                  // handleOverlay("hidden", "add", "");
+                  document.querySelectorAll(".circle").forEach(function (c) {
+                    c.style.backgroundColor = "transparent";
+                  });
+                  document.querySelectorAll("hr").forEach(function (e) {
+                    e.classList.add("hidden");
+                  });
+                  document.querySelectorAll(".uuuuu").forEach(function (e) {
+                    e.style.display = "none";
+                  });
+                }
+              });
+          } else {
+            const nextSibling =
+              event.target.parentElement?.parentElement?.nextElementSibling;
+            //   console.log(nextSibling);
+            if (nextSibling && nextSibling.tagName === "HR") {
+              nextSibling.classList.remove("hidden");
             }
-        }
-    })
 
-    })
-    // console.log("one");
-}else{
-    hr.forEach(function(e, index){
-        if(index === 0){
-            // console.log(e, index);
-            e.classList.add("hidden");
-            uuuuu1.style.display = "none"
+            const nextNextSibling =
+              event.target.parentElement?.parentElement?.nextElementSibling
+                ?.nextElementSibling;
+            console.log(nextNextSibling);
+            if (
+              nextNextSibling &&
+              nextNextSibling.classList.contains("uuuuu")
+            ) {
+              nextNextSibling.style.display = "flex";
+            }
+
+            console.log(nextNextSibling);
+            // console.log(nextNextSibling.children[1]);
+            // console.log(nextNextSibling.children[1].children[1]);
+
+            nextNextSibling.children[1].addEventListener("click", function (e) {
+              if (e.target.classList.contains("Continue")) {
+                console.log(e.target.previousElementSibling.firstElementChild);
+                if (
+                  e.target.previousElementSibling.firstElementChild.value >=
+                    25 ||
+                  e.target.previousElementSibling.firstElementChild.value >= 75
+                ) {
+                  console.log(
+                    e.target.previousElementSibling.firstElementChild.value
+                  );
+                  handleOverlay("", "", "absolute");
+                  totalBackersValue += 1;
+                  console.log(totalBackersValue);
+                  const formattedTotalBackersValue = `${totalBackersValue
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+                  totalBackers.innerHTML = formattedTotalBackersValue;
+
+                  backedValue +=
+                    +e.target.previousElementSibling.firstElementChild.value;
+                  const formattedBackedValue = `$${backedValue
+                    .toString()
+                    .replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+                  backedElement.innerHTML = formattedBackedValue;
+                  document.getElementById("backk").style.zIndex = "0";
+                  document.querySelector(".finaly").classList.remove("hidden");
+                  document
+                    .querySelector(".finaly")
+                    .addEventListener("click", function (e) {
+                      if (e.target.id === "done") {
+                        document
+                          .querySelector(".finaly")
+                          .classList.add("hidden");
+                        document
+                          .getElementById("backk")
+                          .classList.add("hidden");
+                        handleOverlay("", "", "relative");
+                        document
+                          .querySelectorAll(".circle")
+                          .forEach(function (c) {
+                            c.style.backgroundColor = "transparent";
+                          });
+                        document.querySelectorAll("hr").forEach(function (e) {
+                          e.classList.add("hidden");
+                        });
+                        document
+                          .querySelectorAll(".uuuuu")
+                          .forEach(function (e) {
+                            e.style.display = "none";
+                          });
+                      }
+                    });
+                  e.target.previousElementSibling.firstElementChild.value = "";
+                  e.target.previousElementSibling.firstElementChild.style.borderColor =
+                    "#147b74";
+                } else {
+                  e.target.previousElementSibling.firstElementChild.style.borderColor =
+                    "red";
+                }
+              }
+            });
+          }
         }
-    })
-}
-if(index === 2){
-    hr.forEach(function(e, index){
-        if(index === 1){
-            // console.log(e, index);
-            e.classList.remove("hidden");
-            uuuuu2.style.display = "flex"
-        }
-        console.log("lololololi");
-    })
-    // console.log("last");
-}else{
-    hr.forEach(function(e, index){
-        if(index === 1){
-            // console.log(e, index);
-            e.classList.add("hidden");
-            uuuuu2.style.display = "none"
-        }
-        // console.log("lololololi");
-    })
-}
+      });
+    } else if (event.target.id === "close") {
+      handleOverlay("hidden", "add", "");
+      document.getElementById("backk").classList.add("hidden");
     }
-})
+  });
+});
 
-
-// hr
-// hr
-let hr = document.querySelectorAll(".hr");
-// console.log(hr);
-
-
-// close_tap
-// close_tap
-let close = document.getElementById("close");
-// console.log(close);
-close.onclick = function(){
-    overlay.classList.add("hidden");
-    backk.classList.add("hidden");
-}
-
-let uuuuu1 = document.querySelectorAll(".uuuuu")[0];
-// console.log(uuuuu1);
-let uuuuu2 = document.querySelectorAll(".uuuuu")[1];
-// console.log(uuuuu2);
-let Continue = document.querySelectorAll(".Continue");
-// console.log(Continue);
-let finaly = document.getElementById("finaly");
-// console.log(finaly);
-let done = document.getElementById("done");
-// console.log(done);
-done.onclick = function(){
-    finaly.classList.add("hidden"); 
-    backk.classList.add("hidden");
-    overlay.style.position = "relative";   
+function handleOverlay(classname, typeofclassname, style) {
+  if (classname && typeofclassname === "remove") {
+    document.getElementById("overlay").classList.remove(classname);
+  } else if (classname && typeofclassname === "add") {
+    document.getElementById("overlay").classList.add("hidden");
+  } else if (style) {
+    document.getElementById("overlay").style.position = "relative";
+  }
 }
